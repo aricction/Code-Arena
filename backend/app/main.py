@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import time
-
+from .schemas import ChatRequest
 app = FastAPI()
 
 # CORS Middleware
@@ -34,3 +34,12 @@ def home():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.post("/chat")
+async def chat(request: ChatRequest):
+    return {
+        "status": "success",
+        "language": request.language,
+        "problem": request.problem.title,
+        "message": len(request.message)
+    }
