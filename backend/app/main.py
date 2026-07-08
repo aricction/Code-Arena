@@ -1,7 +1,10 @@
+from app.services.prompts import build_system_prompt
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import time
 from .schemas import ChatRequest
+from .schemas import Problem, Example
+
 app = FastAPI()
 
 # CORS Middleware
@@ -43,3 +46,26 @@ async def chat(request: ChatRequest):
         "problem": request.problem.title,
         "message": len(request.message)
     }
+    
+
+    problem = Problem(
+        id="1",
+        title="Two Sum",
+        difficulty="Easy",
+        description="Find two numbers that add up to the target.",
+        examples=[
+            Example(
+                input="nums=[2,7,11,15], target=9",
+                output="[0,1]",
+                explanation="nums[0] + nums[1] = 9"
+            )
+        ]
+    )
+    
+    return {
+         "prompt": build_system_prompt(
+            problem,
+            "def twoSum(nums, target):\n    pass",
+            "python",
+        )
+    }    
