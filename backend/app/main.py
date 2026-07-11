@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import time
 from .schemas import ChatRequest
 from .schemas import Problem, Example
+from app.routes.assistant import router as assistant_router
 
 app = FastAPI()
 
@@ -15,6 +16,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(assistant_router)
 
 # Custom Middleware
 @app.middleware("http")
@@ -47,25 +50,6 @@ async def chat(request: ChatRequest):
         "message": len(request.message)
     }
     
-
-    problem = Problem(
-        id="1",
-        title="Two Sum",
-        difficulty="Easy",
-        description="Find two numbers that add up to the target.",
-        examples=[
-            Example(
-                input="nums=[2,7,11,15], target=9",
-                output="[0,1]",
-                explanation="nums[0] + nums[1] = 9"
-            )
-        ]
-    )
     
-    return {
-         "prompt": build_system_prompt(
-            problem,
-            "def twoSum(nums, target):\n    pass",
-            "python",
-        )
-    }    
+    
+
