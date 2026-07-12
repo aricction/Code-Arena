@@ -1,5 +1,6 @@
 'use client'
 import { Language } from '@/types'
+import { memo } from 'react'
 
 interface Props {
   code: string
@@ -10,7 +11,7 @@ interface Props {
   isRunning: boolean
 }
 
-export default function EditorPanel({ code, onCodeChange, onRun, isRunning }: Props) {
+function EditorPanel({ code, onCodeChange, onRun, isRunning }: Props) {
   return (
     <div className="h-full bg-[#1e1e1e] flex flex-col">
       <div className="p-2 border-b border-neutral-700">
@@ -24,3 +25,5 @@ export default function EditorPanel({ code, onCodeChange, onRun, isRunning }: Pr
     </div>
   )
 }
+
+export default memo(EditorPanel)

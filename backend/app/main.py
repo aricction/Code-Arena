@@ -47,7 +47,7 @@ async def chat(request: ChatRequest):
         "status": "success",
         "language": request.language,
         "problem": request.problem.title,
-        "message": len(request.message)
+        "message": len(request.messages)
     }
     
     
