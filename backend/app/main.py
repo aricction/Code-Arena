@@ -5,6 +5,7 @@ import time
 from .schemas import ChatRequest
 from .schemas import Problem, Example
 from app.routes.assistant import router as assistant_router
+from app.routes.execute import router as execute_router
 
 app = FastAPI()
 
@@ -18,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(assistant_router)
+app.include_router(execute_router)
 
 # Custom Middleware
 @app.middleware("http")

@@ -11,9 +11,11 @@ export default function Home() {
   const [layout, setLayout] = useState<IJsonModel>(defaultModel);
 
   return (
-    <div className="h-screen w-full bg-zinc-50 font-sans dark:bg-black">
+    <main className="relative flex h-screen w-full flex-col overflow-hidden bg-zinc-50 font-sans dark:bg-black">
       <Header onReset={() => setLayout(defaultModel)} />
-      <PlaygroundLayout problem={problem} layout={layout} setLayout={setLayout} />
-    </div>
+      <div className="relative z-0 min-h-0 flex-1 overflow-hidden">
+        <PlaygroundLayout problem={problem} layout={layout} setLayout={setLayout} />
+      </div>
+    </main>
   );
 }

@@ -26,6 +26,7 @@ export interface Problem {
     examples: { input: string; output: string; explanation?: string}[]
     testCases: TestCase[]
     starterCode: Record<Language, string>
+    executionHarness?: Partial<Record<Language, string>>
 }
 
 export interface SubmissionResult {
