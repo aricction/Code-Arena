@@ -1,7 +1,7 @@
 'use client'
 
 import * as FlexLayout from 'flexlayout-react'
-import { useCallback, useState, useRef } from 'react'
+import { useCallback, useEffect, useState, useRef } from 'react'
 import { AssistantPanel, EditorPanel, OutputPanel, ProblemPanel } from '@/components/panels'
 import type { Language, Problem, SubmissionResult } from '@/types'
 import defaultModel from './defaultLayout'
@@ -19,12 +19,23 @@ export default function PlaygroundLayout({ problem, layout, setLayout }: Props) 
   const [result, setResult] = useState<SubmissionResult | null>(null)
   const [isRunning, setIsRunning] = useState(false)
 
-  // Initialize model once
-  if (!modelRef.current) {
-    modelRef.current = FlexLayout.Model.fromJson(layout ?? defaultModel)
-  }
+  useEffect(() => {
+    const nextModel = layout ?? defaultModel
 
-  const model = modelRef.current
+    if (!modelRef.current) {
+      modelRef.current = FlexLayout.Model.fromJson(nextModel)
+      return
+    }
+
+    const currentJson = modelRef.current.toJson()
+    const nextJson = nextModel
+
+    if (JSON.stringify(currentJson) !== JSON.stringify(nextJson)) {
+      modelRef.current = FlexLayout.Model.fromJson(nextJson)
+    }
+  }, [layout])
+
+  const model = modelRef.current ?? FlexLayout.Model.fromJson(layout ?? defaultModel)
 
   const onLanguageChange = useCallback(
     (l: Language) => {
