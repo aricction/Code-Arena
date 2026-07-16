@@ -10,7 +10,7 @@ __pycache__/
 *.pyd
 
 # Environment variables
-.env
+backend/.env
 
 # IDE files
 .vscode/
